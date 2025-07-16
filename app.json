@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.quang0211.SigmaApp"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,11 +22,28 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.quang0211.SigmaApp"
+      "package": "com.quang0211.SigmaApp",
+      "permissions": ["NOTIFICATIONS"]
     },
     "web": {
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff",
+          "sounds": ["./assets/notification_sound.wav"]
+        }
+      ]
+    ],
+    "notification": {
+      "icon": "./assets/notification-icon.png",
+      "color": "#000000",
+      "androidMode": "default",
+      "androidCollapsedTitle": "#{unread_notifications} thông báo mới"
     },
     "extra": {
       "eas": {

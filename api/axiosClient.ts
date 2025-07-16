@@ -8,12 +8,12 @@ import axios, {
 } from "axios";
 
 const axiosClient: AxiosInstance = axios.create({
-  baseURL: API_URL,
+  baseURL: "http://10.10.99.10:8105/api/",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 axiosClient.interceptors.request.use(
@@ -32,7 +32,6 @@ axiosClient.interceptors.request.use(
 
 axiosClient.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
-    console.log("response: ", response);
     return response.data;
   },
   (error: AxiosError) => {

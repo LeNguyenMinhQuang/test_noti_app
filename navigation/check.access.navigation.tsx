@@ -2,25 +2,30 @@ import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkAccess } from "../api/api/auth/auth";
+import { useAuth } from "../context/auth.context";
 
 export default function CheckAccess({ navigation }: { navigation: any }) {
+  // context
+  const { updateUserData }: { updateUserData: (data: any) => void } = useAuth();
+  // life cicle
   useEffect(() => {
     const checkLogin = async () => {
       const access_token = await AsyncStorage.getItem("access_token");
-      const res = { userData: { name: "User" } }; // Mocked response for demonstration
       if (access_token) {
         // @ts-ignore
-        // const res: { status: boolean; userData: any } = await checkAccess();
-        // if (res.status) {
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: "Main",
-              params: { screen: "Home", params: { userData: res.userData } },
-            },
-          ],
-        });
+        const res = await checkAccess();
+        if (res) {
+          await updateUserData(res);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Main" }],
+          });
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Auth" }],
+          });
+        }
       } else {
         navigation.reset({
           index: 0,
