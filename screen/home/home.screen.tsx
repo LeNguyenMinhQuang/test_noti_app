@@ -1,8 +1,16 @@
-import React from "react";
-import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useRef, useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+
+import { useRoute } from "@react-navigation/native";
+import { useAuth } from "../../context/auth.context";
+import { IUser } from "../../datatypes/user";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import Constants from "expo-constants";
+import { ClickedButton } from "../../components/buttons/clicked.button.styled";
+import { Hello, HomeView, NotificationCount } from "./home.styled";
+import Button from "../../components/buttons/clicked.button";
 
 // Cấu hình thông báo
 Notifications.setNotificationHandler({
@@ -15,7 +23,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function NotificationScreen() {
+export default function HomeScreen() {
   // Hàm gửi thông báo local
   const sendNotification = async () => {
     if (!Device.isDevice) {
@@ -30,11 +38,6 @@ export default function NotificationScreen() {
       return;
     }
 
-    // // Lấy push token (tùy chọn)
-    // await Notifications.getExpoPushTokenAsync({
-    //   projectId: Constants.expoConfig?.extra?.eas?.projectId,
-    // });
-
     // Gửi thông báo local
     await Notifications.scheduleNotificationAsync({
       content: {
@@ -47,31 +50,10 @@ export default function NotificationScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={sendNotification}>
-        <Text style={styles.buttonText}>Gửi Thông Báo</Text>
-      </TouchableOpacity>
-    </View>
+    <HomeView>
+      <Hello>Chào buổi sáng</Hello>
+      <NotificationCount>Bạn có 5 thông báo</NotificationCount>
+      <Button title="Fake noti" onPress={sendNotification} />
+    </HomeView>
   );
 }
-
-// CSS
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    paddingVertical: 14,
-    paddingHorizontal: 30,
-    borderRadius: 12,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-});

@@ -2,10 +2,9 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { FontAwesome } from "@expo/vector-icons";
-import HomeScreen from "../screen/home.screen";
-import ProfileScreen from "../screen/profile.screen";
-import NotificationScreen from "../screen/notification.screen";
-
+import HomeScreen from "../screen/home/home.screen";
+import ProfileScreen from "../screen/profile/profile.screen";
+import NotificationScreen from "../screen/notification/notification.screen";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,8 +19,8 @@ export default function MainApp() {
           // @ts-ignore
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "blue",
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: "#648ddc",
+        tabBarInactiveTintColor: "pink",
         headerShown: false,
         tabBarShowLabel: false,
         tabBarIconStyle: {

@@ -1,9 +1,17 @@
-import { Alert } from "react-native";
+import { Alert, StatusBar, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { login } from "../../api/auth/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { LoginTitle, LoginView } from "./login.styled";
+import {
+  Container,
+  FormContainer,
+  HeaderSection,
+  HeaderText,
+  SubHeaderText,
+  SubTitle,
+  Title,
+} from "./login.styled";
 import Input from "../../components/input/input";
 import Button from "../../components/buttons/clicked.button";
 
@@ -59,30 +67,43 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
     }
   };
 
-  useEffect(() => {
-    Alert.alert("Test");
-  }, []);
-
   return (
-    <LoginView>
-      <LoginTitle>Đăng nhập</LoginTitle>
-      <Input
-        placeholder="Tên người dùng"
-        value={userName}
-        onchange={(value: string) => handleChangeUserName(value)}
-      />
-      <Input
-        placeholder="Mật khẩu"
-        value={password}
-        onchange={(value: string) => handleChangePassword(value)}
-        secureTextEntry
-      />
-      <Button
-        title={isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
-        onPress={handleLogin}
-        disabled={isLoading}
-      />
-    </LoginView>
+    <Container>
+      <StatusBar barStyle="light-content" backgroundColor="#000" />
+
+      {/* Header Section */}
+      <HeaderSection>
+        <HeaderText>Sigma</HeaderText>
+        <SubHeaderText>Hello, welcome to Sigma!</SubHeaderText>
+      </HeaderSection>
+
+      {/* Form Container */}
+      <FormContainer>
+        <Title>Sign In</Title>
+        <SubTitle>Enter your information</SubTitle>
+
+        <Input
+          placeholder="Username"
+          value={userName}
+          onchange={handleChangeUserName}
+          width="100%"
+        />
+        <Input
+          placeholder="Password"
+          value={password}
+          onchange={handleChangePassword}
+          width="100%"
+          secureTextEntry={true}
+        />
+
+        <Button
+          width="100%"
+          title={`${isLoading ? "Loging in..." : "Login"}`}
+          onPress={handleLogin}
+          disabled={isLoading}
+        />
+      </FormContainer>
+    </Container>
   );
 };
 

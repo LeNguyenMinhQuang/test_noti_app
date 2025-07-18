@@ -10,8 +10,8 @@ interface IProps {
 export const ClickedButton = styled(Pressable)<IProps>`
   background-color: #648ddc;
   color: #fdfdfd;
-  border-radius: 20px;
-  height: 42px;
+  border-radius: 12px;
+  height: 48px;
   width: ${(props: any) => props.width || "260px"};
   padding: 8px 12px;
   opacity: ${(props: any) => (props.disable ? 0.5 : 1)};
