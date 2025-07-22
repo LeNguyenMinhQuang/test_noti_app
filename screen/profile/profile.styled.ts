@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 export const Container = styled.SafeAreaView`
   flex: 1;
   background-color: #f0f2f5; /* Nền xám nhạt */
+  margin-top: 20px;
 `;
 
 export const ProfileCard = styled.View`

@@ -1,54 +1,47 @@
-import React from "react";
-import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
-import Constants from "expo-constants";
+import React, {useEffect} from "react";
+import { Container, NotiCard, NotiContent, NotiDate, NotiTitle } from "./notification.styled";
+import { ScrollView, StatusBar, Text } from "react-native";
+import { useNoti } from "../../context/noti.context";
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime';
 
-// Cấu hình thông báo
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-    shouldShowBanner: true, // thêm dòng này
-    shouldShowList: true, // thêm dòng này
-  }),
-});
+
+
 
 export default function NotificationScreen() {
-  // Hàm gửi thông báo local
-  const sendNotification = async () => {
-    if (!Device.isDevice) {
-      Alert.alert("Chỉ hoạt động trên thiết bị thật");
-      return;
-    }
+  // store
+  const {listNoti} = useNoti();
 
-    // Đăng ký quyền
-    const { status } = await Notifications.requestPermissionsAsync();
-    if (status !== "granted") {
-      Alert.alert("Không có quyền gửi thông báo");
-      return;
-    }
+  // useEffect
+  useEffect(() => {
+    console.log("List Noti:", listNoti);
+  },[])
 
-    // Gửi thông báo local
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "📢 Xin chào!",
-        body: "Đây là một thông báo đơn giản.",
-        sound: "default",
-      },
-      trigger: null, // Gửi ngay lập tức
-    });
-  };
+  // function
+  const showTime = (time: string) => {
+    dayjs.extend(relativeTime);
+    dayjs.locale('en'); // Thiết lập ngôn ngữ tiếng Việt
+    const date = dayjs(time);
+    return date.fromNow(); // Trả về thời gian tương đối
+  }
 
-  return <View style={styles.container}></View>;
+  const markAsRead = async (id: number) => {
+    const res = await markAsRead(id);
+  }
+
+
+
+  return <Container>
+      <StatusBar barStyle="dark-content" backgroundColor="#f0f2f5" />
+      <ScrollView>
+        {listNoti.map((noti: any) => (
+        <NotiCard key={noti.id}  type={noti.type_message} viewed={noti.viewed} onPress={() => markAsRead(noti.id)}>
+          <NotiTitle>{noti.content.split("] ")[0]+"]"}</NotiTitle>
+          <NotiContent>{noti.content.split("] ")[1]}</NotiContent>
+          <NotiDate>{showTime(noti.create_at)}</NotiDate>
+        </NotiCard>
+      ))}
+      </ScrollView>
+    </Container>;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-  },
-});

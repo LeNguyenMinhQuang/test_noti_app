@@ -17,4 +17,11 @@ export const StyledInput = styled(TextInput)<IProps>`
   &:focus {
     font-size: 16px;
   }
+
+  &::placeholder {
+    color: #999; /* Đổi màu chữ placeholder thành xám nhạt */
+    font-style: italic; /* Đổi kiểu chữ thành nghiêng */
+    font-size: 14px; /* Đổi cỡ chữ */
+    opacity: 1; /* Đảm bảo placeholder không bị mờ (mặc định trình duyệt có thể làm mờ) */
+  }
 `;
