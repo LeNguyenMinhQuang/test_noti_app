@@ -10,7 +10,7 @@ const BACKGROUND_NOTIFICATION_TASK = 'background-notification-check';
 TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async ({ data, error }) => {
   if (error) {
     console.error('Lỗi tác vụ nền:', error);
-    return;
+    return BackgroundFetch.BackgroundFetchResult.Failed;;
   }
   if (data) {
     console.log('Tác vụ nền được kích hoạt với dữ liệu:', data);
@@ -28,6 +28,7 @@ TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async ({ data, error }) => 
               title: 'Bạn có thông báo mới!',
               body: `Có ${unreadNotifications.length} thông báo chưa đọc.`,
               sound: 'default',
+              data: { fromBackgroundFetch: true, count: unreadNotifications.length }
             },
             trigger: null, // Gửi ngay lập tức
           });
@@ -35,7 +36,10 @@ TaskManager.defineTask(BACKGROUND_NOTIFICATION_TASK, async ({ data, error }) => 
           return BackgroundFetch.BackgroundFetchResult.NewData;
         } else {
           console.log('Không có thông báo mới.');
+          return BackgroundFetch.BackgroundFetchResult.NoData;
         }
+      } else {
+        return BackgroundFetch.BackgroundFetchResult.NoData;
       }
     } catch (apiError) {
       console.error('Lỗi khi gọi API trong tác vụ nền:', apiError);
@@ -56,6 +60,14 @@ export const registerBackgroundNotificationTask = async () => {
   const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_NOTIFICATION_TASK);
   if (isRegistered) {
     console.log('Tác vụ nền đã được đăng ký.');
+    return;
+  }
+
+  // Kiểm tra quyền Background Fetch
+  const bgFetchStatus = await TaskManager.getStatusAsync();
+  if (bgFetchStatus === BackgroundFetch.BackgroundFetchStatus.Restricted || bgFetchStatus === BackgroundFetch.BackgroundFetchStatus.Denied) {
+    console.warn('Background Fetch không được phép hoặc bị hạn chế.');
+    alert('Vui lòng cho phép ứng dụng làm mới trong nền để nhận cập nhật định kỳ.');
     return;
   }
 
