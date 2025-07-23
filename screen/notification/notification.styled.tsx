@@ -45,4 +45,9 @@ export const NotiDate = styled.Text`
   color: #999;
   text-align: left;
   width: 100%;
+  margin-bottom: 16px;
 `;
+
+export const ButtonView = styled.View`
+  margin-bottom: 20px; 
+  margin-inline: 20px;`
