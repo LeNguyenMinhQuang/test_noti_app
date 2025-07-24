@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "141218620918",
+    "project_id": "sigma-notification",
+    "storage_bucket": "sigma-notification.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141218620918:android:1a64b98316273a9985d3d7",
+        "android_client_info": {
+          "package_name": "com.quang0211.sigmaNotiApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIRrvPN_wWwgC2x50Xec6oH8DW8q13e0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
